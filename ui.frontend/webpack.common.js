@@ -7,7 +7,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
-const SOURCE_ROOT = __dirname + '/src/main/webpack';
+    const SOURCE_ROOT = __dirname + '/src/main/webpack';
 
 const resolve = {
     extensions: ['.js', '.ts'],
@@ -19,11 +19,18 @@ const resolve = {
 module.exports = {
     resolve: resolve,
     entry: {
-        site: SOURCE_ROOT + '/site/main.ts'
+        site: SOURCE_ROOT + '/site/main.ts',
+        dependencies: SOURCE_ROOT+ '/site/vendor.js'
     },
     output: {
         filename: (chunkData) => {
-            return chunkData.chunk.name === 'dependencies' ? 'clientlib-dependencies/[name].js' : 'clientlib-site/[name].js';
+            switch(chunkData.chunk.name) {
+            case "dependencies":
+                return "clientlib-dependencies/[name].js";
+            case "site":
+                return "clientlib-site/[name].js";
+
+            }
         },
         path: path.resolve(__dirname, 'dist')
     },
@@ -42,6 +49,7 @@ module.exports = {
                             resolve: resolve
                         }
                     }
+                    
                 ]
             },
             {
@@ -74,7 +82,11 @@ module.exports = {
                         }
                     }
                 ]
-            }
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'],
+              }
         ]
     },
     plugins: [

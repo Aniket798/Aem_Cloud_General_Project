@@ -1,0 +1,5 @@
+<div class="cmp-codeblock-container"
+ data-show-line-numbers="${properties.showLineNumbers}" data-show-copy-btn="${properties.showCopyButton}">
+    <pre class ='language-${properties.codeLanguage}'><code id="${currentNode.name}" class='language-${properties.codeLanguage}'>${properties.codeSnippet @context='html'}</code></pre>
+<button class="code-block-copy-btn" data-clipboard-target="#${currentNode.name}">Copy</button>
+</div>
